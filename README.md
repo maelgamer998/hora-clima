@@ -26,7 +26,7 @@ Basta digitar o nome da cidade no campo de pesquisa e o sistema mostra instantan
 ## 🛠️ Tecnologias utilizadas
 
 - HTML5  
-- CSS3  
+- CSS
 - JavaScript  
 - APIs de clima e localização de cidades  
 
