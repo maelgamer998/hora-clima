@@ -265,3 +265,26 @@ input[type=range]::-moz-range-thumb:hover {
   .temperature { font-size: 2rem; }
   .time-box .number { font-size: 2rem; }
 }
+footer {
+  text-align: center;
+  padding: 15px 0;
+  color: #eee; /* Texto claro */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+footer a {
+  color: #4fc3f7; /* Cor azul clara */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+footer a:hover {
+  color: #00e5ff; /* Cor mais vibrante no hover */
+  text-shadow: 0 0 5px #00e5ff;
+}
