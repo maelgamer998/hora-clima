@@ -20,6 +20,7 @@ const timezoneApiKey = '92PQVGBBE5EE';
 
 let currentTimezone = 'America/Sao_Paulo';
 let clockInterval;
+let serverTimestamp = null;
 
 searchBtn.addEventListener('click', () => {
   const city = cityInput.value.trim();
@@ -42,7 +43,6 @@ cityInput.addEventListener('keydown', (e) => {
 
 async function fetchWeatherByCity(city) {
   try {
-
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${openWeatherApiKey}&units=metric&lang=pt_br`;
     const weatherRes = await fetch(weatherUrl);
     if (!weatherRes.ok) throw new Error('Cidade não encontrada');
@@ -57,7 +57,6 @@ async function fetchWeatherByCity(city) {
     const iconCode = weatherData.weather[0].icon;
     weatherIcon.style.backgroundImage = `url(https://openweathermap.org/img/wn/${iconCode}@4x.png)`;
     weatherIcon.textContent = '';
-
 
     extraWeather.innerHTML = `
       <div title="Umidade">
@@ -83,6 +82,8 @@ async function fetchWeatherByCity(city) {
 
     currentTimezone = tzData.zoneName;
 
+    serverTimestamp = tzData.timestamp;
+
     if (clockInterval) clearInterval(clockInterval);
     updateClock();
     clockInterval = setInterval(updateClock, 1000);
@@ -97,13 +98,19 @@ async function fetchWeatherByCity(city) {
 }
 
 function updateClock() {
-  const now = new Date();
-  const options = { timeZone: currentTimezone, hour12: false };
-  const [h, m, s] = now.toLocaleTimeString('pt-BR', options).split(':');
+  if (!serverTimestamp) return;
 
-  hoursDisplay.textContent = h.padStart(2, '0');
-  minutesDisplay.textContent = m.padStart(2, '0');
-  secondsDisplay.textContent = s.padStart(2, '0');
+  serverTimestamp++;
+
+  const now = new Date(serverTimestamp * 1000);
+
+  const h = now.getUTCHours();
+  const m = now.getUTCMinutes();
+  const s = now.getUTCSeconds();
+
+  hoursDisplay.textContent = String(h).padStart(2, '0');
+  minutesDisplay.textContent = String(m).padStart(2, '0');
+  secondsDisplay.textContent = String(s).padStart(2, '0');
 
   const dateOptions = {
     timeZone: currentTimezone,
